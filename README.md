@@ -308,7 +308,24 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### কীভাবে আপনি একটি অবজেক্ট প্রোটোটাইপ সহ তৈরি করবেন
 
+`Object.create()` মেথডটি ব্যবহার করা হয় একটি নির্দিষ্ট প্রোটোটাইপ অবজেক্ট এবং বৈশিষ্ট্যসহ একটি নতুন অবজেক্ট তৈরি করতে। অর্থাৎ, এটি একটি নতুন অবজেক্ট তৈরি করতে একটি বিদ্যমান অবজেক্ট ব্যবহার করে। এটি নির্দিষ্ট প্রোটোটাইপ অবজেক্ট এবং বৈশিষ্ট্যসহ একটি নতুন অবজেক্ট ফিরিয়ে দেয়।
+
+```javascript
+const user = {
+  name: "John",
+  printInfo: function () {
+    console.log(`My name is ${this.name}.`);
+  },
+};
+
+const admin = Object.create(user);
+
+admin.name = "Nick"; // মনে রাখবেন, "name" একটি প্রপার্টি যা "admin" তে সেট করা হয়েছে কিন্তু "user" অবজেক্টে নয়
+
+admin.printInfo(); // My name is Nick
+```
 203.  ### What is a WeakSet
 
       WeakSet is used to store a collection of weakly(weak references) held objects. The syntax would be as follows,
@@ -329,7 +346,13 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### ওয়ীকসেট (WeakSet)
 
+`WeakSet` হলো এমন একটি অবজেক্ট যা স্বয়ংক্রিয়ভাবে অবজেক্ট রেফারেন্স ধরে রাখে, যার জন্য অবজেক্ট গুলির ওই সেটে থাকায় তারা গতি দেয় না (weakly held objects)। এর সিনট্যাক্স হলো,
+
+```javascript
+new WeakSet([iterable]);
+```
 204.  ### What are the differences between WeakSet and Set
 
       The main difference is that references to objects in Set are strong while references to objects in WeakSet are weak. i.e, An object in WeakSet can be garbage collected if there is no other reference to it.
@@ -341,6 +364,18 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       4.  WeakSet is not iterable.
 
       **[⬆ Back to Top](#table-of-contents)**
+
+### ওয়ীকসেট এবং সেটের মধ্যে পার্থক্য
+
+প্রধান পার্থক্য হলো যে সেটে অবজেক্টের রেফারেন্সগুলি স্ট্রং থাকে, সাথে তারা গারবেজ কালেকশনে যাত্রা করতে পারে না, সেইসাথে ওয়ীকসেটে অবজেক্টের রেফারেন্সগুলি ওই সেটে যখন থাকবে তখন তাদের জন্য ওই রেফারেন্সগুলি ওয়ীক হবে। এটি মূলত,
+
+1. সেট যেকোন মান সংরক্ষণ করতে পারে কিন্তু ওয়ীকসেট কেবল অবজেক্ট সমছুহরু সংরক্ষণ করতে পারে
+2. ওয়ীকসেটের কোনও সাইজ প্রপার্টি থাকে না, তার বিপরীতে সেটের একটি সাইজ প্রপার্টি থাকে
+3. ওয়ীকসেটে ক্লিয়ার, কী, ভ্যালু, এন্ট্রিজ, ফরইচ, ইত্যাদির মধ্যে কোনও মেথড নেই
+4. ওয়ীকসেট ইটারেট করা সম্ভব নয়।
+
+**[⬆ উপরে ফিরুন](#table-of-contents)**
+
 
 205.  ### List down the collection of methods available on WeakSet
 
@@ -364,7 +399,26 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### WeakSet মেথড সমূহের সংগ্রহ
 
+নীচে ওয়ীকসেটে প্রযোজ্য মেথডগুলির তালিকা রয়েছে,
+
+1.  **add(value):** একটি নতুন অবজেক্ট দেওয়া হয় যেটি উইকসেটে সঙ্গীত হয়।
+2.  **delete(value):** উইকসেট সংগ্রহ থেকে মান মুছে ফেলে।
+3.  **has(value):** এটি মান যদি উইকসেট সংগ্রহে উপস্থিত হয় তবে সত্য ফিরিয়ে দেয়, অন্যথায় এটি মিথ্যা ফিরিয়ে দেয়।
+
+উপরের সমস্ত মেথডের কাজকর্ম একটি উদাহরণে দেখা যাক,
+
+```javascript
+var weakSetObject = new WeakSet();
+var firstObject = {};
+var secondObject = {};
+// add(value)
+weakSetObject.add(firstObject);
+weakSetObject.add(secondObject);
+console.log(weakSetObject.has(firstObject)); //true
+weakSetObject.delete(secondObject);
+```
 206.  ### What is a WeakMap
 
       The WeakMap object is a collection of key/value pairs in which the keys are weakly referenced. In this case, keys must be objects and the values can be arbitrary values. The syntax is looking like as below,
@@ -386,6 +440,21 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
 
       **[⬆ Back to Top](#table-of-contents)**
 
+### WeakMap
+
+ওয়ীকম্যাপ অবজেক্টটি একটি কী/মান জোড়ের সংগ্রহ, যেখানে কীগুলি শক্তিহীনভাবে রেফারেন্স করা হয়। এই ক্ষেত্রে, কী অবজেক্ট হতে হবে এবং মান বিচ্ছিন্ন মান হতে পারে। নোট: ওয়ীকম্যাপগুলি সাপেক্ষে আবজেক্টগুলির জন্য শোক্তিহীন রেফারেন্স ব্যবহৃত হয়। সিনট্যাক্স নিম্নের মত,
+
+```javascript
+new WeakMap([iterable]);
+নিচে এর আচরণ বোঝানোর জন্য একটি উদাহরণ দেখা হয়েছে,
+var ws = new WeakMap();
+var user = {};
+ws.set(user);
+ws.has(user); // true
+ws.delete(user); // removes user from the map
+ws.has(user); // false, user has been removed
+```
+
 207.  ### What are the differences between WeakMap and Map
 
       The main difference is that references to key objects in Map are strong while references to key objects in WeakMap are weak. i.e, A key object in WeakMap can be garbage collected if there is no other reference to it.
@@ -397,6 +466,18 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       4.  WeakMap is not iterable.
 
       **[⬆ Back to Top](#table-of-contents)**
+
+### WeakMap vs Map
+
+মেইন পার্থক্য হলো, ম্যাপে কী অবজেক্টগুলির রেফারেন্স স্ট্রং হয়, যখন ওয়ীকম্যাপে কী অবজেক্টগুলির রেফারেন্স ওয়ীক হয়। এটার মাধ্যমে, ওয়ীকম্যাপে কোনও কী অবজেক্ট গার্বেজ কালেক্ট হতে পারে যদি এর অন্য কোনও রেফারেন্স না থাকে।
+অন্যান্য পার্থক্যগুলি হলো,
+
+1. ম্যাপ যে কোনও কী প্রকার সংরক্ষণ করতে পারে তবে ওয়ীকম্যাপ কেবল কী অবজেক্টগুলির সংরক্ষণ করতে পারে
+2. ওয়ীকম্যাপে সাইজ প্রপার্টি ছাড়া, ম্যাপে সাইজ প্রপার্টি থাকে
+3. ওয়ীকম্যাপে clear, keys, values, entries, forEach এর মতো মেথড নেই।
+4. ওয়ীকম্যাপ একটি ইটারেটর হিসেবে কাজ করে না।
+
+**[⬆ উপরে ফিরুন](#table-of-contents)**
 
 208.  ### List down the collection of methods available on WeakMap
 
@@ -421,6 +502,17 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### WeakMap Methods
+
+নোট: ওয়ীকম্যাপের মেথডগুলি হলো,
+
+1. `set(key, value)`: ওয়ীকম্যাপ অবজেক্টে কীর জন্য মান সেট করে। ওয়ীকম্যাপ অবজেক্ট রিটার্ন করে।
+2. `delete(key)`: কোনও মৌল্য যোগদান করা হোক না কেন, মৌল্য মুছে ফেলে।
+3. `has(key)`: ওয়ীকম্যাপ অবজেক্টে কোনও মৌল্যই কীর সাথে যুক্ত হয়েছে কিনা তা যাচাই করে একটি বুলিয়ান দেয়।
+4. `get(key)`: কীর সাথে যোগদান করা মৌল্যটি ফিরিয়ে দেয়, বা কোনও না থাকলে undefined ফিরিয়ে দেয়।
+
+**[⬆ উপরে ফিরুন](#table-of-contents)**
+
 
 209.  ### What is the purpose of uneval
 
@@ -441,6 +533,27 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
 
       **[⬆ Back to Top](#table-of-contents)**
 
+### `uneval` এর উদ্দেশ্য
+
+`uneval()` হলো একটি অভ্যন্তরীণ ফাংশন যা একটি অবজেক্টের উৎস কোডের একটি স্ট্রিং প্রতিষ্ঠান করতে ব্যবহৃত হয়। তবে, গুরুত্বপূর্ণ বিষয় হলো `uneval()` ফাংশনটি ডিপ্রিকেট করা হয়েছে। বরং, এর পরিবর্তে অন্য বিকল্পগুলি ব্যবহার করা হয়:
+
+1. ফাংশনগুলির জন্য `toString()` ব্যবহার করতে পারেন:
+
+    ```javascript
+    function user() {}
+    console.log(user.toString()); // "(function user(){})"
+    ```
+
+2. অন্যান্য ক্ষেত্রে, `JSON.stringify()` ব্যবহার করতে পারেন:
+
+    ```javascript
+    var a = 1;
+    JSON.stringify(a); // "1"
+    ```
+
+**[⬆ উপরে ফিরে যান](#table-of-contents)**
+
+
 210.  ### How do you encode an URL
 
       The encodeURI() function is used to encode complete URI which has special characters except (, / ? : @ & = + $ #) characters.
@@ -452,6 +565,15 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### URL কোডিং কিভাবে করতে হয়
+
+`encodeURI()` ফাংশনটি ব্যবহার হয় পূর্ণ URL কোড করতে, যেখানে বিশেষ অক্ষরগুলি (, / ? : @ & = + $ #) এই ক্যারাক্টারগুলির বাদে অন্যান্য সকল ক্যারাক্টারগুলি কোড হয়।
+
+```javascript
+var uri = "https://mozilla.org/?x=шеллы";
+var encoded = encodeURI(uri);
+console.log(encoded); // https://mozilla.org/?x=%D1%88%D0%B5%D0%BB%D0%BB%D1%8B
+```
 
 211.  ### How do you decode an URL
 
@@ -471,6 +593,21 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
 
       **[⬆ Back to Top](#table-of-contents)**
 
+### URL ডিকোডিং কিভাবে করতে হয়
+
+`decodeURI()` ফাংশনটি ব্যবহার হয় একটি Uniform Resource Identifier (URI), যা আগে `encodeURI()` দ্বারা তৈরি করা হয়েছে, টি ডিকোড করতে।
+
+```javascript
+var uri = "https://mozilla.org/?x=шеллы";
+var encoded = encodeURI(uri);
+console.log(encoded); // https://mozilla.org/?x=%D1%88%D0%B5%D0%BB%D0%BB%D1%8B
+try {
+  console.log(decodeURI(encoded)); // "https://mozilla.org/?x=шеллы"
+} catch (e) {
+  // catches a malformed URI
+  console.error(e);
+}
+```
 212.  ### How do you print the contents of web page
 
       The window object provided a print() method which is used to print the contents of the current window. It opens a Print dialog box which lets you choose between various printing options. Let's see the usage of print method in an example,
@@ -482,6 +619,15 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       **Note:** In most browsers, it will block while the print dialog is open.
 
       **[⬆ Back to Top](#table-of-contents)**
+### ওয়েব পৃষ্ঠার কনটেন্ট মুদ্রণ কিভাবে করতে হয়
+
+`window` অবজেক্টটি একটি `print()` মেথড সরবরাহ করে যা বর্তমান উইন্ডোর কনটেন্টটি মুদ্রণ করতে ব্যবহৃত হয়। এটি একটি প্রিন্ট ডায়ালগ বক্স খোলে যা আপনাকে বিভিন্ন মুদ্রণ অপশন মধ্যে চয়ন করতে দেয়। একটি উদাহরণে প্রিন্ট মেথডের ব্যবহার দেখা যাক,
+
+```html
+<input type="button" value="Print" onclick="window.print()" />
+```
+**মন্তব্য:** 
+            মূল্যবান ব্রাউজারগুলিতে, এটি প্রিন্ট ডায়ালগ খোলা থাকলে ব্লক করবে।
 
 213.  ### What is the difference between uneval and eval
 
@@ -497,6 +643,17 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
 
       **[⬆ Back to Top](#table-of-contents)**
 
+### `uneval` এবং `eval` মধ্যে পার্থক্য কী
+
+`uneval` ফাংশনটি একটি প্রদত্ত অবজেক্টের উৎস ফিরিয়ে দেয়; কিন্তু `eval` ফাংশনটি এই উৎস কোডটি একটি পৃথক মেমরি এরিয়ায় মূল্যায়ন করে। পার্থক্য বুঝাতে, নিম্নলিখিত উদাহরণটি দেখুন,
+
+```javascript
+var msg = uneval(function greeting() {
+  return "Hello, Good morning";
+});
+var greeting = eval(msg);
+greeting(); // returns "Hello, Good morning"
+```
 214.  ### What is an anonymous function
 
       An anonymous function is a function without a name! Anonymous functions are commonly assigned to a variable name or used as a callback function. The syntax would be as below,
@@ -526,7 +683,23 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### অজ্ঞাত ফাংশন কী
 
+একটি অজ্ঞাত ফাংশন হলো একটি নাম ছাড়া ফাংশন! অজ্ঞাত ফাংশনগুলি সাধারিতঃ একটি ভেরিয়েবল নামে অ্যাসাইন করা হয় বা কলব্যাক ফাংশন হিসেবে ব্যবহৃত হয়। এর সিনট্যাক্স নিম্নলিখিত,
+
+```javascript
+function (optionalParameters) {
+  // কিছু করুন
+}
+
+const myFunction = function(){ // একটি ভেরিয়েবলে অজ্ঞাত ফাংশন অ্যাসাইন করা হয়েছে
+  // কিছু করুন
+};
+
+[1, 2, 3].map(function(element){ // একটি কলব্যাক ফাংশন হিসেবে ব্যবহৃত অজ্ঞাত ফাংশন
+  // কিছু করুন
+});
+```
 215.  ### What is the precedence order between local and global variables
 
       A local variable takes precedence over a global variable with the same name. Let's see this behavior in an example.
@@ -541,7 +714,18 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### লোকাল এবং গ্লোবাল ভ্যারিয়েবলের মধ্যে প্রাধিকৃত্য ক্রম
 
+একটি লোকাল ভ্যারিয়েবল একটি একই নামে গ্লোবাল ভ্যারিয়েবলের উপর প্রাধিকৃত্য নেয়। এই পৌরাণিকতা একটি উদাহরণে দেখা যাক।
+
+```javascript
+var msg = "Good morning";
+function greeting() {
+  msg = "Good Evening";
+  console.log(msg); // Good Evening
+}
+greeting();
+```
 216.  ### What are javascript accessors
 
       ECMAScript 5 introduced javascript object accessors or computed properties through getters and setters. Getters uses the `get` keyword whereas Setters uses the `set` keyword.
@@ -564,7 +748,26 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### জাভাস্ক্রিপ্ট অ্যাক্সেসর
 
+ECMAScript 5-এ জাভাস্ক্রিপ্ট অবজেক্ট অ্যাক্সেসর বা কম্পিউটেড প্রপার্টির মাধ্যমে গেটার এবং সেটার দ্বারা জাভাস্ক্রিপ্ট অবজেক্ট অ্যাক্সেসর তৈরি হয়েছিল। গেটার এর জন্য `get` কীওয়ার্ড ব্যবহার করা হয় যখন সেটার এর জন্য `set` কীওয়ার্ড ব্যবহার করা হয়।
+
+```javascript
+var user = {
+  firstName: "John",
+  lastName: "Abraham",
+  language: "en",
+  get lang() {
+    return this.language;
+  },
+  set lang(lang) {
+    this.language = lang;
+  },
+};
+console.log(user.lang); // getter দ্বারা lang এর মান পাওয়া হচ্ছে en
+user.lang = "fr";
+console.log(user.lang); // setter ব্যবহার করে lang কে fr হিসেবে সেট করা হচ্ছে
+```
 217.  ### How do you define property on Object constructor
 
       The Object.defineProperty() static method is used to define a new property directly on an object, or modify an existing property on an object, and returns the object. Let's see an example to know how to define property,
@@ -583,12 +786,32 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### অবজেক্ট কনস্ট্রাক্টরে প্রোপার্টি সংজ্ঞায়িত করতে
 
+Object.defineProperty() স্ট্যাটিক মেথডটি একটি নতুন প্রোপার্টি সংজ্ঞায়িত করতে বা একটি বিদ্যমান প্রোপার্টি উপর সরানোর জন্য ব্যবহৃত হয়, এবং অবজেক্টটি রিটার্ন করে। কিভাবে একটি প্রোপার্টি সংজ্ঞায়িত করতে হয় তা জানতে একটি উদাহরণ দেখা যাক,
+
+```javascript
+const newObject = {};
+
+Object.defineProperty(newObject, "newProperty", {
+  value: 100,
+  writable: false,
+});
+
+console.log(newObject.newProperty); // 100
+
+newObject.newProperty = 200; // writable সেটিং এর জন্য স্ট্রিক্ট মোডে একটি ত্রুটি তৈরি করে
+```
 218.  ### What is the difference between get and defineProperty
 
       Both have similar results until unless you use classes. If you use `get` the property will be defined on the prototype of the object whereas using `Object.defineProperty()` the property will be defined on the instance it is applied to.
 
       **[⬆ Back to Top](#table-of-contents)**
+### `get` এবং `defineProperty` মধ্যে পার্থক্য
+
+উভয়ই অনুভব করা হয় পরিমিতির দৃষ্টিকোণ হতে, একবার যদি আপনি ক্লাস ব্যবহার করেন। যদি আপনি `get` ব্যবহার করেন তবে প্রপার্টি অবজেক্টের প্রোটোটাইপে সংজ্ঞায়িত হবে, অন্যথায় `Object.defineProperty()` ব্যবহার করার সময় প্রপার্টি তার উপর সংজ্ঞায়িত হবে যা এটি প্রয়োগ করা হয়েছে।
+
+**[⬆ উপরে ফিরে যান](#table-of-contents)**
 
 219.  ### What are the advantages of Getters and Setters
 
@@ -601,6 +824,17 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       5.  Useful for doing things behind the scenes with the encapsulated logic.
 
       **[⬆ Back to Top](#table-of-contents)**
+### গেটার এবং সেটারের সুবিধাগুলি
+
+নিম্নলিখিত হলো গেটার এবং সেটারের সুবিধাগুলির তালিকা,
+
+1.  এগুলি সহজ সিনট্যাক্স সরবরাহ করে
+2.  এগুলি JS-এ কম্পিউটেড প্রোপার্টি বা অ্যাক্সেসর সংজ্ঞায়িত করার জন্য ব্যবহৃত হয়
+3.  প্রোপার্টি এবং মেথডগুলির মধ্যে সমতা স্থাপনের জন্য দরকারী
+4.  এগুলি ভাল ডেটা গুণগতি সরবরাহ করতে পারে
+5.  এগুলি এনক্যাপসুলেটেড লজিক সাথে পিছিয়ে গেলের জন্য দরকারি
+
+**[⬆ উপরে ফিরে যান](#table-of-contents)**
 
 220.  ### Can I add getters and setters using defineProperty method
 
@@ -641,6 +875,42 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
 
       **[⬆ Back to Top](#table-of-contents)**
 
+### কি Object.defineProperty() মেথড ব্যবহার করে গেটার এবং সেটার যোগ করা যায়?
+
+হ্যাঁ, আপনি `Object.defineProperty()` মেথড ব্যবহার করে গেটার এবং সেটার যোগ করতে পারেন। উদাহরণস্বরূপ, নিচের কাউন্টার অবজেক্টটি ইনক্রিমেন্ট, ডিক্রিমেন্ট, যোগ এবং বিয়োগ প্রোপার্টিগুলি ব্যবহার করে,
+
+```javascript
+var obj = { counter: 0 };
+
+// গেটার ডিফাইন করুন
+Object.defineProperty(obj, "increment", {
+  get: function () {
+    this.counter++;
+  },
+});
+Object.defineProperty(obj, "decrement", {
+  get: function () {
+    this.counter--;
+  },
+});
+
+// সেটার ডিফাইন করুন
+Object.defineProperty(obj, "add", {
+  set: function (value) {
+    this.counter += value;
+  },
+});
+Object.defineProperty(obj, "subtract", {
+  set: function (value) {
+    this.counter -= value;
+  },
+});
+
+obj.add = 10;
+obj.subtract = 5;
+console.log(obj.increment); // 6
+console.log(obj.decrement); // 5
+```
 221.  ### What is the purpose of switch-case
 
       The switch case statement in JavaScript is used for decision making purposes. In a few cases, using the switch case statement is going to be more convenient than if-else statements. The syntax would be as below,
@@ -667,6 +937,29 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       The above multi-way branch statement provides an easy way to dispatch execution to different parts of code based on the value of the expression.
 
       **[⬆ Back to Top](#table-of-contents)**
+### সুইচ-কেস এর উদ্দেশ্য কি?
+
+জাভাস্ক্রিপ্টে সুইচ-কেস স্টেটমেন্টটি নির্ধারণ নেওয়ার জন্য ব্যবহৃত হয় নির্ধারণ নেওয়ার উদ্দেশ্যে। কিছু ক্ষেত্রে, সুইচ-কেস স্টেটমেন্ট ব্যবহার করা ইফ-এল্স স্টেটমেন্টগুলির চেয়ে সুবিধাজনক হতে পারে। নীচের সিনট্যাক্সটির মত,
+
+```javascript
+switch (expression)
+{
+    case value1:
+        statement1;
+        break;
+    case value2:
+        statement2;
+        break;
+    .
+    .
+    case valueN:
+        statementN;
+        break;
+    default:
+        statementDefault;
+}
+```
+উপরের এই মাল্টি-উয়ে ব্র্যাঞ্চ স্টেটমেন্টটি একটি একক কোডের বিভিন্ন অংশে প্রয়োজনের উপরে অনুভূতি দেয় যা অভিবিন্ন মান দ্বারা কোডের বিভিন্ন অংশে এক্সিকিউশন প্রেরণ করার সহজ উপায় দেয়।
 
 222.  ### What are the conventions to be followed for the usage of switch case
 
@@ -679,6 +972,19 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       5.  The break statement is optional. But if it is omitted, the execution will continue on into the next case.
 
       **[⬆ Back to Top](#table-of-contents)**
+
+### সুইচ-কেস ব্যবহারের জন্য কি ধরণের শৃঙ্খলা অনুসরণ করা উচিত?
+
+নীচে কিছু শৃঙ্খলা হওয়া উচিত সুইচ-কেস ব্যবহারের জন্য,
+
+1. এক্সপ্রেশন হতে পারে সংখ্যা বা স্ট্রিং ধরনের যেকোনো একটি।
+2. এক্সপ্রেশনে ডুপ্লিকেট মান অনুমোদিত নয়।
+3. ডিফল্ট স্টেটমেন্টটি ঐচ্ছিক। যদি সুইচটিতে পাঠানো এক্সপ্রেশন কোনও কেস মানের সাথে মিলছে না, তবে ডিফল্ট কেসের মধ্যে স্টেটমেন্টটি অমলের হবে।
+4. সুইচ এর মধ্যে ব্রেক স্টেটমেন্টটি একটি স্টেটমেন্ট সিকোয়েন্স সমাপ্ত করতে ব্যবহৃত হয়।
+5. ব্রেক স্টেটমেন্টটি ঐচ্ছিক। কিন্তু যদি এটি অমিট করা হয়, তবে কার্যক্রম পরবর্তী কেসে চলবে।
+
+**[⬆ উপরে ফিরে যান](#table-of-contents)**
+
 
 223.  ### What are primitive data types
 
@@ -693,6 +999,19 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       7.  symbol
 
       **[⬆ Back to Top](#table-of-contents)**
+### কি হলো প্রাইমিটিভ ডাটা টাইপ?
+
+একটি প্রাইমিটিভ ডাটা টাইপ হলো যে ডাটা একটি প্রাইমিটিভ মান রাখে (যা কোনও বৈশিষ্ট্য বা মেথড নেই)। একটি ভাষায় ৭ টি প্রাইমিটিভ ডাটা টাইপ থাকতে পারে।
+
+1. string
+2. number
+3. boolean
+4. null
+5. undefined
+6. bigint
+7. symbol
+
+**[⬆ উপরে ফিরে যান](#table-of-contents)**
 
 224.  ### What are the different ways to access object properties
 
@@ -718,6 +1037,25 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
 
       **[⬆ Back to Top](#table-of-contents)**
 
+### অবজেক্ট প্রোপার্টি অ্যাক্সেস করার বিভিন্ন উপায়
+
+একটি অবজেক্টের প্রোপার্টি অ্যাক্সেস করার জন্য ৩টি সম্ভাব্য উপায় আছে।
+
+1. **ডট নোটেশন:** এটি প্রোপার্টি অ্যাক্সেস করার জন্য ডট ব্যবহার করে
+
+```javascript
+   অবজেক্টের_নাম.প্রোপার্টি;
+```
+**স্কোয়ার ব্র্যাকেটস নোটেশন:** এটি প্রোপার্টি অ্যাক্সেস করার জন্য স্কোয়ার ব্র্যাকেট ব্যবহার করে
+```javascript
+অবজেক্টের_নাম["প্রোপার্টি"];
+```
+**এক্সপ্রেশন নোটেশন:** এটি স্কোয়ার ব্র্যাকেটে এক্সপ্রেশন ব্যবহার করে
+
+```javascript
+অবজেক্টের_নাম[এক্সপ্রেশন];
+```
+
 225.  ### What are the function parameter rules
 
       JavaScript functions follow below rules for parameters,
@@ -735,6 +1073,21 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### ফাংশন প্যারামিটার নিয়মাবলী
+
+জাভাস্ক্রিপ্ট ফাংশনগুলি নিম্নলিখিত নিয়মাবলী অনুসরণ করে প্যারামিটারের জন্য,
+
+1. ফাংশন ডিফিনিশনগুলি প্যারামিটারগুলির জন্য ডেটা টাইপ সুনির্দিষ্ট করে না।
+2. পাস করা আর্গুমেন্টগুলির উপর টাইপ চেকিং করে না।
+3. প্রাপ্ত আর্গুমেন্টগুলির সংখ্যা চেক করে না।
+   অর্থাৎ, নিচের ফাংশনটি উপরে উল্লেখিত নিয়মাগুলি অনুসরণ করে,
+
+```javascript
+function ফাংশনের_নাম(প্যারামিটার1, প্যারামিটার2, প্যারামিটার3) {
+  console.log(প্যারামিটার1); // 1
+}
+ফাংশনের_নাম(1);
+```
 
 226.  ### What is an error object
 
@@ -749,7 +1102,17 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### এরর অবজেক্ট
 
+একটি এরর অবজেক্ট হলো একটি প্রবেশিত এরর অবজেক্ট যা এরর ঘটতে সময় তথ্য প্রদান করে। এটির দুটি গুলি প্রপার্টি আছে: name এবং message। উদাহরণস্বরূপ, নিচের ফাংশনটি এরর বিবরণ লগ করে,
+
+```javascript
+try {
+  greeting("Welcome");
+} catch (err) {
+  console.log(err.name + "<br>" + err.message);
+}
+```
 227.  ### When you get a syntax error
 
       A SyntaxError is thrown if you try to evaluate code with a syntax error. For example, the below missing quote for the function parameter throws a syntax error
@@ -763,6 +1126,17 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### সিনট্যাক্স এরর
+
+একটি সিনট্যাক্স এরর প্রকাশ হয় যদি আপনি কোড বিশ্লেষণ করতে চান এবং সিনট্যাক্স এরর থাকে। উদাহরণস্বরূপ, নীচের ফাংশন প্যারামিটারের জন্য কোট হারিয়ে গিয়ে একটি সিনট্যাক্স এরর তৈরি করে
+
+```javascript
+try {
+  eval("greeting('welcome)"); // Missing ' will produce an error
+} catch (err) {
+  console.log(err.name);
+}
+```
 
 228.  ### What are the different error names from error object
 
@@ -777,6 +1151,20 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       | URIError | An error due to encodeURI() |
 
       **[⬆ Back to Top](#table-of-contents)**
+### এরর অবজেক্ট থেকে বিভিন্ন এরর নেম
+
+এরর অবজেক্ট থেকে 6 ধরণের এরর নেম প্রাপ্ত হয়,
+
+| এরর নেম     | বর্ণনা                                         |
+| ------------ | --------------------------------------------- |
+| EvalError    | eval() ফাংশনে একটি এরর হয়েছে             |
+| RangeError   | একটি সংখ্যা "সীমার বাইরে" এরর হয়েছে       |
+| ReferenceError | একটি অবৈধ রেফারেন্সের কারণে এরর হয়েছে   |
+| SyntaxError  | সিনট্যাক্স এররের কারণে এরর হয়েছে         |
+| TypeError    | টাইপ এররের কারণে এরর হয়েছে               |
+| URIError     | encodeURI() এর জন্য এরর হয়েছে                |
+
+**[⬆ উপরে ফিরে যান](#table-of-contents)**
 
 229.  ### What are the various statements in error handling
 
@@ -789,24 +1177,51 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
 
       **[⬆ Back to Top](#table-of-contents)**
 
+### এরর হ্যান্ডলিং এ বিভিন্ন স্টেটমেন্টস
+
+নিচে এরর হ্যান্ডলিং এ ব্যবহৃত স্টেটমেন্টসের তালিকা,
+
+1.  **try:** এটি কোড ব্লকটি ত্রুটির জন্য টেস্ট করতে ব্যবহৃত হয়
+2.  **catch:** এটি এরর হ্যান্ডল করতে ব্যবহৃত হয়
+3.  **throw:** এটি কাস্টম এরর তৈরি করতে ব্যবহৃত হয়
+4.  **finally:** এটি try এবং catch এর পরে কোডটি সম্পন্ন হওয়ার পরে ব্যবহৃত হয়, যেকোন ফলাফলের মোকাবেলায় ব্যবহৃত হয়।
+
+**[⬆ উপরে ফিরে যান](#table-of-contents)**
+
 230.  ### What are the two types of loops in javascript
 
       1.  **Entry Controlled loops:** In this kind of loop type, the test condition is tested before entering the loop body. For example, For Loop and While Loop comes under this category.
       2.  **Exit Controlled Loops:** In this kind of loop type, the test condition is tested or evaluated at the end of the loop body. i.e, the loop body will execute at least once irrespective of test condition true or false. For example, do-while loop comes under this category.
 
       **[⬆ Back to Top](#table-of-contents)**
+### JavaScript-এ দুটি প্রকারের লুপ
+
+1.  **এন্ট্রি কন্ট্রোলড লুপসমূহ (Entry Controlled Loops):** এই ধরণের লুপে, লুপ বডির ভেতরে ঢুকার আগে পরীক্ষা শর্ত পরীক্ষা করা হয়। এই ক্যাটেগরিতে For Loop এবং While Loop পড়ে।
+2.  **এক্সিট কন্ট্রোলড লুপসমূহ (Exit Controlled Loops):** এই ধরণের লুপে, টেস্ট কন্ডিশন লুপ বডির শেষে পরীক্ষা বা মূল্যায়ন করা হয়। অর্থাৎ, লুপ বডি কমপক্ষে একবার অবশ্যই চলবে, তো পরীক্ষা শর্ত সত্য বা মিথ্যা হোক না কেন। এই ক্যাটেগরিতে do-while লুপ পড়ে।
+
+**[⬆ উপরে ফিরে যান](#table-of-contents)**
 
 231.  ### What is nodejs
 
       Node.js is a server-side platform built on Chrome's JavaScript runtime for easily building fast and scalable network applications. It is an event-based, non-blocking, asynchronous I/O runtime that uses Google's V8 JavaScript engine and libuv library.
 
       **[⬆ Back to Top](#table-of-contents)**
+### নোড.জেএস (Node.js)
+
+নোড.জেএস হলো একটি সার্ভার-সাইড প্ল্যাটফর্ম যা চ্রোমের জাভাস্ক্রিপ্ট রানটাইমে ভিত্তি করে, যা দ্রুত এবং স্কেলেবল নেটওয়ার্ক অ্যাপ্লিকেশন সহজে তৈরি করতে সাহায্য করে। এটি ইভেন্ট-ভিত্তিক, নন-ব্লকিং, অসিঞ্চ্রোনাস I/O রানটাইম যা গুগলের V8 জাভাস্ক্রিপ্ট ইঞ্জিন এবং লিবউভ লাইব্রেরি ব্যবহার করে।
+
+**[⬆ উপরে ফিরে যান](#table-of-contents)**
 
 232.  ### What is an Intl object
 
       The Intl object is the namespace for the ECMAScript Internationalization API, which provides language sensitive string comparison, number formatting, and date and time formatting. It provides access to several constructors and language sensitive functions.
 
       **[⬆ Back to Top](#table-of-contents)**
+### ইন্ট্রন্যাশনালিজেশন (Intl) অবজেক্ট
+
+ইন্ট্রন্যাশনালিজেশন (Intl) অবজেক্ট হলো ECMAScript ইন্টারন্যাশনালাইজেশন API এর নেমস্পেস, যা ভাষা-সংবেদনশীল স্ট্রিং তুলনা, নাম্বার ফরম্যাটিং এবং ডেট এবং টাইম ফরম্যাটিং সরবরাহ করে। এটি বিরাট সংখ্যক কনস্ট্রাক্টর এবং ভাষা-সংবেদনশীল ফাংশনে অ্যাক্সেস প্রদান করে।
+
+**[⬆ উপরে ফিরে যান](#table-of-contents)**
 
 233.  ### How do you perform language specific date and time formatting
 
@@ -819,12 +1234,25 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### ভাষা-সংবেদনশীল ডেট এবং টাইম ফরম্যাটিং
 
+ভাষা-সংবেদনশীল ডেট এবং টাইম ফরম্যাটিং করতে আপনি `Intl.DateTimeFormat` অবজেক্ট ব্যবহার করতে পারেন, যা একটি ভাষা-সংবেদনশীল ডেট এবং টাইম ফরম্যাটিং সক্ষম করার জন্য কনস্ট্রাক্টর। নিচে একটি উদাহরণ দেখা হয়েছে,
+
+```javascript
+var date = new Date(Date.UTC(2019, 07, 07, 3, 0, 0));
+console.log(new Intl.DateTimeFormat("en-GB").format(date)); // 07/08/2019
+console.log(new Intl.DateTimeFormat("en-AU").format(date)); // 07/08/2019
+```
 234.  ### What is an Iterator
 
       An iterator is an object which defines a sequence and a return value upon its termination. It implements the Iterator protocol with a `next()` method which returns an object with two properties: `value` (the next value in the sequence) and `done` (which is true if the last value in the sequence has been consumed).
 
       **[⬆ Back to Top](#table-of-contents)**
+### ইটারেটর
+
+একটি ইটারেটর হলো একটি অবজেক্ট যা একটি ক্রম এবং এর সমাপ্তি হতে একটি মান প্রদান করে। এটি একটি `next()` মেথড দিয়ে Iterator প্রোটোকল ইমপ্লিমেন্ট করে যা একটি অবজেক্ট রিটার্ন করে যা দুটি প্রোপার্টি থাকে: `value` (ক্রমবর্ধমান মান) এবং `done` (যদি ক্রমবর্ধমান মান চূড়ান্ত হয়ে যায় তাহলে true)।
+
+**[⬆ উপরে ফিরে যান](#table-of-contents)**
 
 235.  ### How does synchronous iteration works
 
@@ -846,7 +1274,24 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### সমকালিন ইটারেশনের কাজকরী
 
+ES6-এ সমকালিন ইটারেশন প্রস্তুত করা হয়েছিল এবং এটি নিম্নোক্ত উপাদানের সাথে কাজ করে,
+
+- **ইটারেবল:** এটি একটি অবজেক্ট যা Symbol.iterator এর কী দিয়ে যাত্রা করা যায়।
+- **ইটারেটর:** এটি একটি অবজেক্ট যা একটি ইটারেবলে `[Symbol.iterator]()` কে ইঙ্কোক করলে প্রদান হয়। এই ইটারেটর অবজেক্টটি প্রতি ইটারেটেড এলিমেন্টকে একটি অবজেক্টে রেখে এবং এটি ব্যবহার করে `next()` মেথডের মাধ্যমে একটি একটি রিটার্ন করে।
+- **ইটারেটর রেজাল্ট:** এটি `next()` মেথড দ্বারা প্রদান করা হয়। এই অবজেক্টটি দুটি প্রোপার্টি ধারণ করে; `value` প্রোপার্টিতে একটি ইটারেটেড এলিমেন্ট থাকে এবং `done` প্রোপার্টি ধারণ করে এলিমেন্টটি শেষ এলিমেন্ট কি না তা নির্ধারণ করে।
+
+নিচে একটি অ্যারের সাথে সমকালিন ইটারেশন দেখানো হয়েছে,
+
+```javascript
+const iterable = ["one", "two", "three"];
+const iterator = iterable[Symbol.iterator]();
+console.log(iterator.next()); // { value: 'one', done: false }
+console.log(iterator.next()); // { value: 'two', done: false }
+console.log(iterator.next()); // { value: 'three', done: false }
+console.log(iterator.next()); // { value: 'undefined, done: true }
+```
 236.  ### What is an event loop
 
       The event loop is a process that continuously monitors both the call stack and the event queue and checks whether or not the call stack is empty. If the call stack is empty and there are pending events in the event queue, the event loop dequeues the event from the event queue and pushes it to the call stack. The call stack executes the event, and any additional events generated during the execution are added to the end of the event queue.
@@ -854,6 +1299,13 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       **Note:** The event loop allows Node.js to perform non-blocking I/O operations, even though JavaScript is single-threaded, by offloading operations to the system kernel whenever possible. Since most modern kernels are multi-threaded, they can handle multiple operations executing in the background.
 
       **[⬆ Back to Top](#table-of-contents)**
+### ইভেন্ট লুপ
+
+ইভেন্ট লুপ হলো একটি প্রক্রিয়া যা ধারণ করে কল স্ট্যাক এবং ইভেন্ট কিউ উভয়ই নিয়মিতভাবে মনিটর করে এবং চেক করে কল স্ট্যাক কি খালি আছে কি না। যদি কল স্ট্যাক খালি থাকে এবং ইভেন্ট কিউতে মুলতবি ইভেন্ট থাকে, তবে ইভেন্ট লুপটি ইভেন্ট কিউ থেকে ইভেন্ট বের করে এবং এটি কল স্ট্যাকে ঢুকিয়ে দেয়। কল স্ট্যাক ইভেন্টটি সম্পাদনা করে এবং সম্পাদনা করার পর এর সম্প্রচারের সময় জন্য আমদানি ইভেন্টগুলি ইভেন্ট কিউর শেষে যোগ করা হয়।
+
+**নোট:** ইভেন্ট লুপ দেওয়ায় Node.js কে নন-ব্লকিং I/O অপারেশন করতে অনুমতি দেয়, তবে JavaScript একক থ্রেডে চলতে হবে, যা সম্ভাবনামতো ব্লকিং I/O অপারেশন করতে বাধ্য করে না, সিস্টেম কার্নেলে যখন সম্ভাবনামতো অপারেশন অফলোড হয়ে যায়। কারণ অধিকাংশ আধুনিক কার্নেলগুলি মাল্টি-থ্রেডেড হয়ে থাকে এবং এগুলি পৃষ্ঠভূমির অপারেশন সম্পাদন করতে পারে।
+
+**[⬆ উপরে ফিরে যান](#table-of-contents)**
 
 237.  ### What is call stack
 
@@ -886,6 +1338,32 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ![Screenshot](images/call-stack.png)
 
       **[⬆ Back to Top](#table-of-contents)**
+### কল স্ট্যাক
+
+কল স্ট্যাক হলো জাভাস্ক্রিপ্ট ইন্টারপ্রিটারের জন্য একটি ডেটা স্ট্রাকচার, যা প্রোগ্রামে ফাংশন কলগুলির স্থানান্তর রেখে রাখতে হয় (এক্সিকিউশন কন্টেক্সট তৈরি করে)। এর দুইটি প্রধান কার্য আছে,
+
+1. যখন আপনি একটি ফাংশনকে এর সম্পাদনায় কল করেন, তখন আপনি এটি স্ট্যাকে পুশ করছেন।
+2. সম্পাদনা সম্পন্ন হলে, ফাংশনটি স্ট্যাক থেকে পপ হয়ে যাচ্ছে।
+
+নিচে একটি উদাহরণ এবং এর ডায়াগ্রাম ফরম্যাটে অবস্থা প্রতিষ্ঠানের দেখানো হয়েছে
+
+```javascript
+function hungry() {
+  eatFruits();
+}
+function eatFruits() {
+  return "I'm eating fruits";
+}
+
+// হাংরি ফাংশনটি কল করুন
+hungry();
+```
+উপরের কোডটি কল স্ট্যাকে নিম্নলিখিত ভাবে প্রসেস হয়েছে,
+
+## hungry() ফাংশনটি কল স্ট্যাক তালিকায় যোগ করুন এবং কোডটি সম্পাদনা করুন।
+## eatFruits() ফাংশনটি কল স্ট্যাক তালিকায় যোগ করুন এবং কোডটি সম্পাদনা করুন।
+## আমাদের কল স্ট্যাক তালিকা থেকে eatFruits() ফাংশনটি মুছে ফেলুন।
+## কোনো আইটেম নেই তাই hungry() ফাংশনটি কল স্ট্যাক তালিকা থেকে মুছে ফেলুন।
 
 238.  ### What is an event queue
 
@@ -896,6 +1374,15 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       The event loop constantly checks whether or not the call stack is empty. Once the call stack is empty and there is a callback in the event queue, the event loop moves the callback into the call stack. But if there is a callback in the microtask queue as well, it is moved first. The microtask queue has a higher priority than the event queue.
 
       **[⬆ Back to Top](#table-of-contents)**
+### ইভেন্ট কিউ
+
+ইভেন্ট কিউটি কিউ ডেটা স্ট্রাকচার অনুসরণ করে। এটি কল স্ট্যাকে যোগ করা যাবে না কারণ এটি অসিঙ্ক্রোনাস কলব্যাকগুলির জন্য। এটিকে একেবারে কল স্ট্যাকে যোগ করতে এটি কল স্ট্যাকের মধ্যে একটি প্রকার স্থানান্তর বা এড করতে হয় (প্রমিসের কলব্যাকটির ক্ষেত্রে এটি মাইক্রোটাস্ক কিউতে এড হয়)।
+
+যখন কল স্ট্যাকটি একটি অ্যাসিঙ্ক ফাংশন পেয়েছে, তখন এটি ওয়েব এপিআইতে নিযুক্ত হয়েছে। ওয়েব এপিআই এটি সম্পাদনা করতে এবং ফলাফলের জন্য অপেক্ষা করতে বলছে। এটি শেষ হলে, সম্পাদনা সম্পন্ন হলে কলব্যাকটি ইভেন্ট কিউতে সরিয়ে দেওয়া হয় (প্রমিসের কলব্যাকটি মাইক্রোটাস্ক কিউতে সরিয়ে যাওয়া হয়)।
+
+ইভেন্ট লুপ সততায় পরীক্ষা করে যে কল স্ট্যাক খালি কিনা। একবার কল স্ট্যাক খালি হলে এবং ইভেন্ট কিউতে একটি কলব্যাক থাকলে, ইভেন্ট লুপ কলব্যাকটি কল স্ট্যাকে সরিয়ে দেয়। তবে যদি মাইক্রোটাস্ক কিউতে একটি কলব্যাক থাকে, তাদের প্রথমে সরিয়ে নেয়। মাইক্রোটাস্ক কিউটি ইভেন্ট কিউর চেয়ে উচ্চ অধিকারিতা রাখে।
+
+**[⬆ উপরে ফিরে যান](#table-of-contents)**
 
 239.  ### What is a decorator
 
@@ -920,7 +1407,27 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### ডেকোরেটর
 
+একটি ডেকোরেটর একটি ফাংশনে যা একটি ফাংশনে যা লক্ষ্য, নাম এবং ডেকোরেটর ডেসক্রিপ্টর বিশ্লেষণ হিসেবে কর্ম করে। এটি ঐচ্ছিকভাবে লক্ষ্য অবজেক্টে ইনস্টল করতে একটি ডেকোরেটর ডেসক্রিপ্টর কে ফিরিয়ে দেয়। ডিজাইন টাইমে ব্যবহারকারী ক্লাসের জন্য এডমিন ডেকোরেটর সংজ্ঞায়িত করা হয়,
+
+```javascript
+function admin(isAdmin) {
+   return function(target) {
+       target.isAdmin = isAdmin;
+   }
+}
+
+@admin(true)
+class User() {
+}
+console.log(User.isAdmin); //true
+
+ @admin(false)
+ class User() {
+ }
+ console.log(User.isAdmin); //false
+```
 240.  ### What are the properties of Intl object
 
       Below are the list of properties available on Intl object,
@@ -933,6 +1440,18 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       6.  **RelativeTimeFormat:** Objects that enable language-sensitive relative time formatting.
 
       **[⬆ Back to Top](#table-of-contents)**
+### Intl অবজেক্টের প্রোপার্টিস
+
+নীচে রয়েছে Intl অবজেক্টের প্রোপার্টিগুলির তালিকা,
+
+1. **Collator:** এগুলি ভাষা-সহায়ক স্ট্রিং তুলনা সক্ষম করার অবজেক্ট।
+2. **DateTimeFormat:** এগুলি ভাষা-সহায়ক তারিখ এবং সময় বিন্যাস করার অবজেক্ট।
+3. **ListFormat:** এগুলি ভাষা-সহায়ক তালিকা বিন্যাস করার অবজেক্ট।
+4. **NumberFormat:** ভাষা-সহায়ক সংখ্যা বিন্যাস করার জন্য অবজেক্ট।
+5. **PluralRules:** বহুভুজ সংখ্যা বিন্যাস এবং বহুভুজ সংবাদের জন্য ভাষা-সহায়ক নিয়ম অবজেক্ট।
+6. **RelativeTimeFormat:** ভাষা-সহায়ক আপেক্ষিক সময় বিন্যাস করার জন্য অবজেক্ট।
+
+**[⬆ উপরে ফিরে যান](#table-of-contents)**
 
 241.  ### What is an Unary operator
 
@@ -949,7 +1468,19 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### ইউনারি অপারেটর
 
+ইউনারি(+) অপারেটরটি একটি ভ্যারিয়েবলকে একটি সংখ্যায় রূপান্তর করতে ব্যবহৃত হয়। ভ্যারিয়েবলটি রূপান্তর করা সম্ভব না হলে, এটি এখনো একটি সংখ্যা হয়ে যাবে কিন্তু মানটি NaN হবে। এই আচরণটি একটি উদাহরণে দেখা যাক।
+
+```javascript
+var x = "100";
+var y = +x;
+console.log(typeof x, typeof y); // string, number
+
+var a = "Hello";
+var b = +a;
+console.log(typeof a, typeof b, b); // string, number, NaN
+```
 242.  ### How do you sort elements in an array
 
       The sort() method is used to sort the elements of an array in place and returns the sorted array. The example usage would be as below,
@@ -961,7 +1492,15 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### কিভাবে একটি অ্যারেতে উপাদানগুলি সাজানো হয়
 
+sort() মেথডটি অ্যারের উপাদানগুলি জায়গায় সাজাতে ব্যবহৃত হয় এবং সাজানো অ্যারেটি প্রদান করে। উদাহরণ ব্যবহার নীচে দেখা যায়,
+
+```javascript
+var months = ["Aug", "Sep", "Jan", "June"];
+months.sort();
+console.log(months); //  ["Aug", "Jan", "June", "Sep"]
+```
 243.  ### What is the purpose of compareFunction while sorting arrays
 
       The compareFunction is used to define the sort order. If omitted, the array elements are converted to strings, then sorted according to each character's Unicode code point value. Let's take an example to see the usage of compareFunction,
@@ -973,7 +1512,15 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### অ্যারে সাজানোর সময় compareFunction এর উদ্দেশ্য কি
 
+compareFunction টি ব্যবহার হয় সাজানোর ক্রম নির্ধারণ করার জন্য। যদি এটি অকার্যকর থাকে, তবে অ্যারের উপাদানগুলি স্ট্রিংয়ে রূপান্তরিত হয় এবং প্রতিটি অক্ষরের Unicode কোড পয়েন্ট মান অনুযায়ী সাজানো হয়। এটি ব্যবহারের উদাহরণ দেখতে একটি উদাহরণ নিন,
+
+```javascript
+let numbers = [1, 2, 5, 3, 4];
+numbers.sort((a, b) => b - a);
+console.log(numbers); // [5, 4, 3, 2, 1]
+```
 244.  ### How do you reversing an array
 
       You can use the reverse() method to reverse the elements in an array. This method is useful to sort an array in descending order. Let's see the usage of reverse() method in an example,
@@ -986,7 +1533,16 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### কিভাবে একটি অ্যারে রিভার্স করবেন
 
+আপনি একটি অ্যারেতে উপাদানগুলি রিভার্স করতে reverse() মেথডটি ব্যবহার করতে পারেন। এই মেথডটি অ্যারেটি ডিসেন্ডিং অর্ডারে সাজানোর জন্য দরকারি। এটির ব্যবহারটি একটি উদাহরণে দেখা যাক,
+
+```javascript
+let numbers = [1, 2, 5, 3, 4];
+numbers.sort((a, b) => b - a);
+numbers.reverse();
+console.log(numbers); // [1, 2, 3, 4, 5]
+```
 245.  ### How do you find min and max value in an array
 
       You can use `Math.min` and `Math.max` methods on array variables to find the minimum and maximum elements within an array. Let's create two functions to find the min and max value with in an array,
@@ -1005,7 +1561,22 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### কিভাবে একটি অ্যারেতে সর্বনিম্ন এবং সর্বাধিক মান খুঁজবেন
 
+আপনি অ্যারের ভ্যারিয়েবলে Math.min এবং Math.max মেথডগুলি ব্যবহার করতে পারেন অ্যারেতে সর্বনিম্ন এবং সর্বাধিক উপাদান খুঁজতে। একটি অ্যারেতে সর্বনিম্ন এবং সর্বাধিক মান খুঁজতে দুটি ফাংশন তৈরি করা যাক,
+
+```javascript
+var marks = [50, 20, 70, 60, 45, 30];
+function findMin(arr) {
+  return Math.min.apply(null, arr);
+}
+function findMax(arr) {
+  return Math.max.apply(null, arr);
+}
+
+console.log(findMin(marks));
+console.log(findMax(marks));
+```
 246.  ### How do you find min and max values without Math functions
 
       You can write functions which loop through an array comparing each value with the lowest value or highest value to find the min and max values. Let's create those functions to find min and max values,
@@ -1039,7 +1610,38 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### কিভাবে Math ফাংশন ছাড়াই সর্বনিম্ন এবং সর্বাধিক মান খুঁজবেন
 
+আপনি একটি ফাংশন লেখতে পারেন যা একটি অ্যারে দিয়ে লুপ চালিয়ে প্রতি মানকে সর্বনিম্ন মান বা সর্বাধিক মানের সাথে তুলনা করে এবং সর্বনিম্ন এবং সর্বাধিক মানগুলি খুঁজে বের করে। আসুন সেই ফাংশনগুলি তৈরি করি,
+
+```javascript
+var marks = [50, 20, 70, 60, 45, 30];
+
+function findMin(arr) {
+  var length = arr.length;
+  var min = Infinity;
+  while (length--) {
+    if (arr[length] < min) {
+      min = arr[length];
+    }
+  }
+  return min;
+}
+
+function findMax(arr) {
+  var length = arr.length;
+  var max = -Infinity;
+  while (length--) {
+    if (arr[length] > max) {
+      max = arr[length];
+    }
+  }
+  return max;
+}
+
+console.log(findMin(marks));
+console.log(findMax(marks));
+```
 247.  ### What is an empty statement and purpose of it
 
       The empty statement is a semicolon (;) indicating that no statement will be executed, even if JavaScript syntax requires one. Since there is no action with an empty statement you might think that it's usage is quite less, but the empty statement is occasionally useful when you want to create a loop that has an empty body. For example, you can initialize an array with zero values as below,
@@ -1050,7 +1652,14 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### শূন্য স্টেটমেন্ট কি এবং এর উদ্দেশ্য
 
+শূন্য স্টেটমেন্ট হলো একটি সেমিকোলন (;) যা প্রতিবাদ করে যে কোনও স্টেটমেন্ট সঞ্চালিত হবে না, যদি জাভাস্ক্রিপ্ট সিনট্যাক্স একটি স্টেটমেন্ট প্রয়োজন করে। শূন্য স্টেটমেন্টের সাথে কোনও কাজ নেই তাই আপনি যদি মনে করেন যে এটি ব্যবহার কম, তবে শূন্য স্টেটমেন্টটি কখনও ব্যবহারযোগ্য হয় যখন আপনি একটি শূন্য বডি সহ একটি লুপ তৈরি করতে চান। উদাহরণস্বরূপ, আপনি একটি অ্যারেকে শূন্য মান দিয়ে ইনিসিয়ালাইজ করতে পারেন,
+
+```javascript
+// একটি অ্যারে a ইনিসিয়ালাইজ করুন
+for (let i = 0; i < a.length; a[i++] = 0);
+```
 248.  ### How do you get metadata of a module
 
       You can use the `import.meta` object which is a meta-property exposing context-specific meta data to a JavaScript module. It contains information about the current module, such as the module's URL. In browsers, you might get different meta data than NodeJS.
@@ -1061,7 +1670,14 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### কিভাবে একটি মডিউলের মেটাডেটা পাওয়া যায়
 
+আপনি `import.meta` অবজেক্ট ব্যবহার করতে পারেন, যা একটি জাভাস্ক্রিপ্ট মডিউলে সংদর্ভ-বিশিষ্ট মেটা ডেটা উপস্থাপন করে। এটি বর্তমান মডিউলের তথ্য সহ যেগুলি থাকে, সেগুলি যেমন মডিউলের URL ইত্যাদি। ব্রাউজারে, আপনি নোডজেএসের তুলনায় আলাদা মেটা ডেটা পাবেন।
+
+```javascript
+<script type="module" src="welcome-module.js"></script>;
+console.log(import.meta); // { url: "file:///home/user/welcome-module.js" }
+```
 249.  ### What is a comma operator
 
       The comma operator is used to evaluate each of its operands from left to right and returns the value of the last operand. This is totally different from comma usage within arrays, objects, and function arguments and parameters. For example, the usage for numeric expressions would be as below,
@@ -1074,7 +1690,16 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### কমা অপারেটর
 
+কমা অপারেটরটি তার অপারেন্ডগুলি বাম থেকে ডানে মূল্যায়ন করতে এবং শেষ অপারেন্ডের মানটি প্রদান করতে ব্যবহৃত হয়। এটি সম্পূর্ণভাবে অ্যারে, অবজেক্ট, এবং ফাংশনের আরওয়াম প্যারামিটার এবং আরগুমেন্টগুলির মধ্যে কমা ব্যবহারের থেকে সংকোচ করা। উদাহরণস্বরূপ, এর মান গণনার জন্য সংখ্যার অভিব্যন্তি হতে পারে এমন -
+
+```javascript
+var x = 1;
+x = (x++, x);
+
+console.log(x); // 2
+```
 250.  ### What is the advantage of a comma operator
 
       It is normally used to include multiple expressions in a location that requires a single expression. One of the common usages of this comma operator is to supply multiple parameters in a `for` loop. For example, the below for loop uses multiple expressions in a single location using comma operator,
@@ -1093,7 +1718,21 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### কমা অপারেটরের সুবিধা
 
+সাধারণভাবে এটি একটি সিঙ্গল এক্সপ্রেশন প্রয়োজন স্থানে একাধিক এক্সপ্রেশন অন্তর্ভুক্ত করার জন্য ব্যবহৃত হয়। এই কমা অপারেটরের একটি সাধারিত ব্যবহার হল একটি `for` লুপে একাধিক প্যারামিটার সরবরাহ করা। উদাহরণস্বরূপ, নিচের ফর লুপটি একাধিক এক্সপ্রেশন ব্যবহার করে একটি সিঙ্গল স্থানে -
+
+```javascript
+for (var a = 0, b = 10; a <= 10; a++, b--)
+```
+আপনি রিটার্ন স্টেটমেন্টেও কমা অপারেটর ব্যবহার করতে পারেন যেখানে এটি রিটার্ন হওয়ার আগে প্রসেস হয়।
+```javascript
+function myFunction() {
+  var a = 1;
+  return (a += 10), a; // 11
+}
+
+```
 251.  ### What is typescript
 
       TypeScript is a typed superset of JavaScript created by Microsoft that adds optional types, classes, async/await, and many other features, and compiles to plain JavaScript. Angular built entirely in TypeScript and used as a primary language. You can install it globally as
@@ -1117,6 +1756,24 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       The greeting method allows only string type as argument.
 
       **[⬆ Back to Top](#table-of-contents)**
+### টাইপস্ক্রিপ্ট
+
+টাইপস্ক্রিপ্ট হলো জাভাস্ক্রিপ্টের একটি টাইপড সাপারসেট, যা মাইক্রোসফট তৈরি করেছে এবং এটি অপশনাল টাইপ, ক্লাস, এসিঙ্ক/অয়েট, এবং অনেক অন্যান্য ফিচার যোগ করে, এবং এটি সাধারিত জাভাস্ক্রিপ্টে কম্পাইল হয়। অ্যাঙ্গুলারও পূর্নাঙ্গ টাইপস্ক্রিপ্টে তৈরি এবং এটির প্রাথমিক ভাষা হিসেবে ব্যবহৃত হয়। আপনি এটি গ্লোবালি ইনস্টল করতে পারেন
+
+```bash
+npm install -g typescript
+```
+চলুন টাইপস্ক্রিপ্ট ব্যবহারের একটি সাধারিত উদাহরণ দেখি,
+```javascript
+function greeting(name: string): string {
+  return "Hello, " + name;
+}
+
+let user = "Sudheer";
+
+console.log(greeting(user));
+```
+এই গ্রিটিং মেথডটি শুধুমাত্র স্ট্রিং টাইপকে আর্গুমেন্ট হিসেবে অনুমোদন করে।
 
 252.  ### What are the differences between javascript and typescript
 
@@ -1131,6 +1788,19 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       | Optional parameters | Functions support optional parameters | No support of optional parameters for functions |
 
       **[⬆ Back to Top](#table-of-contents)**
+### জাভাস্ক্রিপ্ট এবং টাইপস্ক্রিপ্টের পার্থক্য
+
+নীচে জাভাস্ক্রিপ্ট এবং টাইপস্ক্রিপ্ট মধ্যে বিভিন্ন পার্থক্যের তালিকা দেওয়া হয়েছে,
+
+| বৈশিষ্ট্য              | টাইপস্ক্রিপ্ট                          | জাভাস্ক্রিপ্ট                                  |
+| ------------------- | ------------------------------------- | ----------------------------------------------- |
+| ভাষা প্যারাডাইম   | অবজেক্ট ওয়ারিএন্টেড প্রোগ্রামিং ভাষা  | স্ক্রিপ্টিং ভাষা                              |
+| টাইপিং সাপোর্ট     | স্ট্যাটিক টাইপিং সাপোর্ট করে            | এটি ডাইনামিক টাইপিং সাপোর্ট করে              |
+| মডিউল              | সাপোর্ট করে                           | সাপোর্ট করেনা                                  |
+| ইন্টারফেস           | ইন্টারফেস ধারণা সাপোর্ট করে            | ইন্টারফেস সাপোর্ট করেনা                       |
+| অপশনাল প্যারামিটার | ফাংশনগুলিতে অপশনাল প্যারামিটার সাপোর্ট করে | ফাংশনের জন্য অপশনাল প্যারামিটারের সাপোর্ট নেই |
+
+**[⬆ উপরে ফিরে যান](#table-of-contents)**
 
 253.  ### What are the advantages of typescript over javascript
 
@@ -1141,6 +1811,15 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       3.  TypeScript compiler can compile the .ts files into ES3,ES4 and ES5 unlike ES6 features of javascript which may not be supported in some browsers.
 
       **[⬆ Back to Top](#table-of-contents)**
+### জাভাস্ক্রিপ্টের উপর টাইপস্ক্রিপ্টের উপকারিতা
+
+নীচে জাভাস্ক্রিপ্টের উপর টাইপস্ক্রিপ্টের কিছু উপকারিতা দেওয়া হয়েছে,
+
+1.  টাইপস্ক্রিপ্ট প্রারম্ভিক সময়েই কম্পাইল টাইম ত্রুটি খুজে বের করতে পারে এবং এটি সিদ্ধান্ত নেয় যে কোনো রানটাইম ত্রুটির সংখ্যা কম থাকবে। যেহেতু জাভাস্ক্রিপ্ট একটি ইন্টারপ্রেটেড ভাষা.
+2.  টাইপস্ক্রিপ্ট স্ট্রংলি-টাইপড বা স্ট্যাটিক টাইপিং সাপোর্ট করে যা কম্পাইল সময়ে টাইপ সঠিকতা পরীক্ষা করার অনুমতি দেয়। এটি জাভাস্ক্রিপ্টে উপলব্ধ নয়।
+3.  টাইপস্ক্রিপ্ট কম্পাইলার এটি .ts ফাইলগুলি কম্পাইল করতে পারে ES3, ES4 এবং ES5 এ, যা জাভাস্ক্রিপ্টে অনুমোদিত নয় হতে পারে কিন্তু ES6 ফিচারগুলি।
+
+**[⬆ উপরে ফিরে যান](#table-of-contents)**
 
 254.  ### What is an object initializer
 
@@ -1153,7 +1832,15 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### অবজেক্ট ইনিশিয়ালাইজার
 
+অবজেক্ট ইনিশিয়ালাইজার হলো একটি অবজেক্টের ইনিশিয়ালাইজেশন বর্ণনা করার একটি অভ্যন্তরীণ। এই এক্সপ্রেশনের সিনট্যাক্সটি একটি অবজেক্টের সংজ্ঞার একটি অংশ হিসেবে প্রদর্শিত হয়, যা কোমা দ্বারা পৃথক করা হয় শূন্য বা একাধিক অবজেক্ট বৈশিষ্ট্য এবং সাথে সম্পর্কিত মান, কুড়লি বন্ধনীতে মোচনকৃত, ব্যক্ত করা হয় ({} এর মধ্যে)। এটি লিটারেল নোটেশন হিসেবেও পরিচিত। এটি একটি অবজেক্ট তৈরি করার একটি উপায়।
+
+```javascript
+var initObject = { a: "John", b: 50, c: {} };
+
+console.log(initObject.a); // John
+```
 255.  ### What is a constructor method
 
       The constructor method is a special method for creating and initializing an object created within a class. If you do not specify a constructor method, a default constructor is used. The example usage of constructor would be as below,
@@ -1171,7 +1858,21 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### কনস্ট্রাক্টর মেথড
 
+কনস্ট্রাক্টর মেথডটি হলো একটি বিশেষ মেথড যা একটি ক্লাসের মধ্যে তৈরি এবং একটি অবজেক্ট তৈরি এবং তার শুরুতে ইনিশিয়ালাইজ করতে ব্যবহৃত হয়। আপনি যদি একটি কনস্ট্রাক্টর মেথড সুনির্দিষ্ট করেন না, তবে একটি ডিফল্ট কনস্ট্রাক্টর ব্যবহৃত হয়। কনস্ট্রাক্টরের একটি উদাহরণ হতে পারে নিচের মত,
+
+```javascript
+class Employee {
+  constructor() {
+    this.name = "John";
+  }
+}
+
+var employeeObject = new Employee();
+
+console.log(employeeObject.name); // John
+```
 256.  ### What happens if you write constructor more than once in a class
 
       The "constructor" in a class is a special method and it should be defined only once in a class. i.e, If you write a constructor method more than once in a class it will throw a `SyntaxError` error.
@@ -1192,7 +1893,24 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### ক্লাসে কনস্ট্রাক্টর একাধিকবার লেখা হলে কি হয়
 
+ক্লাসে "কনস্ট্রাক্টর" হলো একটি বিশেষ মেথড এবং এটি ক্লাসে একবার মাত্র লেখা হয়। অর্থাৎ, আপনি যদি একটি ক্লাসে একাধিকবার কনস্ট্রাক্টর মেথড লেখেন তাও এটি একটি `SyntaxError` তৈরি করবে।
+
+```javascript
+class Employee {
+  constructor() {
+    this.name = "John";
+  }
+  constructor() {   //  Uncaught SyntaxError: A class may only have one constructor
+    this.age = 30;
+  }
+}
+
+var employeeObject = new Employee();
+
+console.log(employeeObject.name);
+```
 257.  ### How do you call the constructor of a parent class
 
       You can use the `super` keyword to call the constructor of a parent class. Remember that `super()` must be called before using 'this' reference. Otherwise it will cause a reference error. Let's the usage of it,
@@ -1213,9 +1931,27 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
         }
       }
       ```
-
       **[⬆ Back to Top](#table-of-contents)**
+### কিভাবে একটি প্যারেন্ট ক্লাসের কনস্ট্রাক্টর কল করতে হয়
 
+আপনি প্যারেন্ট ক্লাসের কনস্ট্রাক্টর কল করতে `super` কীওয়ার্ড ব্যবহার করতে পারেন। মনে রাখবেন যে, `super()` কল করা আবশ্যক এবং এটি 'this' রেফারেন্স ব্যবহার করার আগে কল করা আবশ্যক। অথবা এটি রেফারেন্স এরর তৈরি করবে। এর ব্যবহার একটি উদাহরণে দেখানো হয়েছে,
+
+```javascript
+class Square extends Rectangle {
+  constructor(length) {
+    super(length, length);
+    this.name = "Square";
+  }
+
+  get area() {
+    return this.width * this.height;
+  }
+
+  set area(value) {
+    this.area = value;
+  }
+}
+```
 258.  ### How do you get the prototype of an object
 
       You can use the `Object.getPrototypeOf(obj)` method to return the prototype of the specified object. i.e. The value of the internal `prototype` property. If there are no inherited properties then `null` value is returned.
@@ -1229,6 +1965,16 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
 
       **[⬆ Back to Top](#table-of-contents)**
 
+### একটি অবজেক্টের প্রোটোটাইপ কিভাবে পেতে হয়
+
+আপনি `Object.getPrototypeOf(obj)` মেথড ব্যবহার করতে পারেন যেটি নির্দিষ্ট অবজেক্টের প্রোটোটাইপ কে ফিরিয়ে দেয়। অর্থাৎ, অভ্যন্তরীণ `prototype` প্রপার্টির মান। যদি কোনও ইনহেরিটেড প্রোপার্টি না থাকে তাদের জন্য `null` মান প্রদান করা হয়।
+
+```javascript
+const newPrototype = {};
+const newObject = Object.create(newPrototype);
+
+console.log(Object.getPrototypeOf(newObject) === newPrototype); // true
+```
 259.  ### What happens If I pass string type for getPrototype method
 
       In ES5, it will throw a TypeError exception if the obj parameter isn't an object. Whereas in ES2015, the parameter will be coerced to an `Object`.
@@ -1241,7 +1987,16 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### আমি getPrototype মেথডে স্ট্রিং টাইপ পাস করলে কি হয়
 
+ES5 এ, যদি obj প্যারামিটারটি একটি অবজেক্ট না হয় তবে এটি একটি TypeError একসেপশন ফেলবে। অপরদিকে, ES2015 এ, প্যারামিটারটি একটি `Object` হিসেবে প্রোটাইপ করা হবে।
+
+```javascript
+// ES5
+Object.getPrototypeOf("James"); // TypeError: "James" is not an object
+// ES2015
+Object.getPrototypeOf("James"); // String.prototype
+```
 260.  ### How do you set prototype of one object to another
 
       You can use the `Object.setPrototypeOf()` method that sets the prototype (i.e., the internal `Prototype` property) of a specified object to another object or null. For example, if you want to set prototype of a square object to rectangle object would be as follows,
@@ -1252,7 +2007,14 @@ console.log(Object.keys(user)); //['name', 'gender', 'age']
       ```
 
       **[⬆ Back to Top](#table-of-contents)**
+### একটি অবজেক্টের প্রোটোটাইপকে অপর অবজেক্টে কীভাবে সেট করা যায়
 
+আপনি `Object.setPrototypeOf()` মেথডটি ব্যবহার করতে পারেন, যা নির্দিষ্ট একটি অবজেক্টের প্রোটোটাইপকে (অর্থাৎ, আভ্যন্তরিক `Prototype` প্রপার্টি) অপর একটি অবজেক্ট বা নাল এ সেট করে। উদাহরণস্বরূপ, একটি বর্গের অবজেক্টের প্রোটোটাইপকে আরেকটি রেক্ট্যাঙ্গল অবজেক্টে সেট করতে চান তার উদাহরণ হবে,
+
+```javascript
+Object.setPrototypeOf(Square.prototype, Rectangle.prototype);
+Object.setPrototypeOf({}, null);
+```
 261.  ### How do you check whether an object can be extendable or not
 
       The `Object.isExtensible()` method is used to determine if an object is extendable or not. i.e, Whether it can have new properties added to it or not.
